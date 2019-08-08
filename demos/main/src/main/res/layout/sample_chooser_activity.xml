@@ -18,8 +18,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="write url then tap CONFIRM"/>
+
+  <EditText android:id="@+id/et_url"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"/>
+
+  <Button android:id="@+id/btn_commit"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="CONFIRM"/>
+
   <ExpandableListView android:id="@+id/sample_list"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_height="wrap_content"/>
 
 </LinearLayout>

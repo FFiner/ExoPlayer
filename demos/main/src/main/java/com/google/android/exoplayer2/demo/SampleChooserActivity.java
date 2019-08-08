@@ -31,6 +31,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
@@ -65,11 +67,20 @@ public class SampleChooserActivity extends AppCompatActivity
   private SampleAdapter sampleAdapter;
   private MenuItem preferExtensionDecodersMenuItem;
   private MenuItem randomAbrMenuItem;
+  private EditText urlEditText;
+  private Button confirmBtn;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sample_chooser_activity);
+
+    urlEditText = findViewById(R.id.et_url);
+    confirmBtn = findViewById(R.id.btn_commit);
+    if(confirmBtn != null){
+      confirmBtn.setOnClickListener(confirmListener);
+    }
+
     sampleAdapter = new SampleAdapter();
     ExpandableListView sampleListView = findViewById(R.id.sample_list);
     sampleListView.setAdapter(sampleAdapter);
@@ -608,5 +619,19 @@ public class SampleChooserActivity extends AppCompatActivity
     }
 
   }
+
+  private Button.OnClickListener confirmListener = new OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      if(urlEditText != null){
+        String url = urlEditText.getText().toString();
+
+        Intent intent = new Intent(SampleChooserActivity.this, PlayerActivity.class);
+        intent.setData(Uri.parse(url));
+        intent.setAction(PlayerActivity.ACTION_VIEW);
+        SampleChooserActivity.this.startActivity(intent);
+      }
+    }
+  };
 
 }

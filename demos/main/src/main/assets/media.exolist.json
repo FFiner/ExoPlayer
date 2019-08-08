@@ -1,5 +1,51 @@
 [
   {
+    "name": "--------------------self-build source-----------------------"
+  },
+  {
+    "name": "RTMP",
+    "samples": [
+      {
+        "name": "rtmp://169.254.162.102/live/home",
+        "uri": "rtmp://169.254.162.102/live/home"
+      }
+    ]
+  },
+  {
+    "name": "DASH",
+    "samples": [
+      {
+        "name": "http://169.254.162.102:8080/dash/movie.mpd",
+        "uri": "http://169.254.162.102:8080/dash/movie.mpd"
+      }
+    ]
+  },
+  {
+    "name": "Hls",
+    "samples": [
+      {
+        "name": "http://169.254.162.102:8080/hls/movie.m3u8",
+        "uri": "http://169.254.162.102:8080/hls/movie.m3u8"
+      }
+    ]
+  },
+  {
+    "name": "HSS",
+    "samples": [
+      {
+        "name": "http://169.254.162.102/hssLive.isml/manifest",
+        "uri": "http://169.254.162.102/hssLive.isml/manifest"
+      },
+      {
+        "name": "http://10.32.132.20/hssLive.isml/manifest",
+        "uri": "http://10.32.132.20/hssLive.isml/manifest"
+      }
+    ]
+  },
+  {
+    "name": "-----------------------google source-------------------------"
+  },
+  {
     "name": "YouTube DASH",
     "samples": [
       {
