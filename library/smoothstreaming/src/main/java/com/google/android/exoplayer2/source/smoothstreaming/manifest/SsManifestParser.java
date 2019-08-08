@@ -773,6 +773,8 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
       if (fourCC.equalsIgnoreCase("H264") || fourCC.equalsIgnoreCase("X264")
           || fourCC.equalsIgnoreCase("AVC1") || fourCC.equalsIgnoreCase("DAVC")) {
         return MimeTypes.VIDEO_H264;
+      } else if (fourCC.equalsIgnoreCase("WVC1")){
+        return MimeTypes.VIDEO_VC1;
       } else if (fourCC.equalsIgnoreCase("AAC") || fourCC.equalsIgnoreCase("AACL")
           || fourCC.equalsIgnoreCase("AACH") || fourCC.equalsIgnoreCase("AACP")) {
         return MimeTypes.AUDIO_AAC;
