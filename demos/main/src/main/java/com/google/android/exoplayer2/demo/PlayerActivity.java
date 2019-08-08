@@ -43,6 +43,7 @@ import com.google.android.exoplayer2.drm.FrameworkMediaCrypto;
 import com.google.android.exoplayer2.drm.FrameworkMediaDrm;
 import com.google.android.exoplayer2.drm.HttpMediaDrmCallback;
 import com.google.android.exoplayer2.drm.UnsupportedDrmException;
+import com.google.android.exoplayer2.ext.rtmp.RtmpDataSourceFactory;
 import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.DecoderInitializationException;
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil.DecoderQueryException;
 import com.google.android.exoplayer2.offline.DownloadHelper;
@@ -155,7 +156,6 @@ public class PlayerActivity extends AppCompatActivity
       setTheme(R.style.PlayerTheme_Spherical);
     }
     super.onCreate(savedInstanceState);
-    dataSourceFactory = buildDataSourceFactory();
     if (CookieHandler.getDefault() != DEFAULT_COOKIE_MANAGER) {
       CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
     }
@@ -356,6 +356,10 @@ public class PlayerActivity extends AppCompatActivity
         return;
       }
 
+      if(uris.length > 0){
+        dataSourceFactory = buildDataSourceFactory(uris[0]);
+      }
+
       DefaultDrmSessionManager<FrameworkMediaCrypto> drmSessionManager = null;
       if (intent.hasExtra(DRM_SCHEME_EXTRA) || intent.hasExtra(DRM_SCHEME_UUID_EXTRA)) {
         String drmLicenseUrl = intent.getStringExtra(DRM_LICENSE_URL_EXTRA);
@@ -550,6 +554,22 @@ public class PlayerActivity extends AppCompatActivity
 
   /** Returns a new DataSource factory. */
   private DataSource.Factory buildDataSourceFactory() {
+    //return ((DemoApplication) getApplication()).buildDataSourceFactory();
+      return buildDataSourceFactory(null);
+  }
+
+  private DataSource.Factory buildDataSourceFactory(Uri uri) {
+/*      @ContentType int type = Util.inferContentType(uri, null);
+      if(type == C.TYPE_RTMP){
+          return  new RtmpDataSourceFactory();
+      }*/
+    if(uri != null){
+      String path = uri.getPath();
+      if(path != null && path.startsWith("rtmp:")){
+        return  new RtmpDataSourceFactory();
+      }
+    }
+
     return ((DemoApplication) getApplication()).buildDataSourceFactory();
   }
 
