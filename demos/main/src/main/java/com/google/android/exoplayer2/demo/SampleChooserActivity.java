@@ -18,10 +18,13 @@ package com.google.android.exoplayer2.demo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.JsonReader;
 import android.view.Menu;
@@ -47,6 +50,7 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
+import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +73,7 @@ public class SampleChooserActivity extends AppCompatActivity
   private MenuItem randomAbrMenuItem;
   private EditText urlEditText;
   private Button confirmBtn;
+  private Button confirmBtn4;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,10 @@ public class SampleChooserActivity extends AppCompatActivity
     confirmBtn = findViewById(R.id.btn_commit);
     if(confirmBtn != null){
       confirmBtn.setOnClickListener(confirmListener);
+    }
+    confirmBtn4 = findViewById(R.id.btn_commit4);
+    if(confirmBtn4 != null){
+      confirmBtn4.setOnClickListener(confirmListener);
     }
 
     sampleAdapter = new SampleAdapter();
@@ -621,15 +630,45 @@ public class SampleChooserActivity extends AppCompatActivity
   }
 
   private Button.OnClickListener confirmListener = new OnClickListener() {
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onClick(View v) {
-      if(urlEditText != null){
-        String url = urlEditText.getText().toString();
+      if(v == null) return;
+      switch (v.getId()){
+        case R.id.btn_commit:{
+          if(urlEditText != null){
+            String url = urlEditText.getText().toString();;//"/sdcard/DCIM/Camera/VID_20180111_084546.mp4";//
 
-        Intent intent = new Intent(SampleChooserActivity.this, PlayerActivity.class);
-        intent.setData(Uri.parse(url));
-        intent.setAction(PlayerActivity.ACTION_VIEW);
-        SampleChooserActivity.this.startActivity(intent);
+            Intent intent = new Intent(SampleChooserActivity.this, PlayerActivity.class);
+            intent.setData(Uri.parse(url));
+            intent.setAction(PlayerActivity.ACTION_VIEW);
+            SampleChooserActivity.this.startActivity(intent);
+          }
+          break;
+        }
+        case R.id.btn_commit4: {
+          String url = urlEditText.getText().toString();
+
+          Intent intent = new Intent(SampleChooserActivity.this, FourPlayerActivity.class);
+          intent.setData(Uri.parse(url));
+          SampleChooserActivity.this.startActivity(intent);
+          /*try {
+            String tag = "xxxxxxxx";
+            MediaCodec decoder1 = MediaCodec.createDecoderByType(MimeTypes.VIDEO_H264);
+            Log.d(tag, "create decoder1 :" + decoder1.getName());
+            MediaCodec decoder2 = MediaCodec.createDecoderByType(MimeTypes.VIDEO_H264);
+            Log.d(tag, "create decoder1 :" + decoder1.getName());
+            MediaCodec decoder3 = MediaCodec.createDecoderByType(MimeTypes.VIDEO_H264);
+            Log.d(tag, "create decoder1 :" + decoder1.getName());
+            MediaCodec decoder4 = MediaCodec.createDecoderByType(MimeTypes.VIDEO_H264);
+            Log.d(tag, "create decoder1 :" + decoder1.getName());
+          } catch (IOException e) {
+            e.printStackTrace();
+          }*/
+          break;
+        }
+        default:
+          return;
       }
     }
   };

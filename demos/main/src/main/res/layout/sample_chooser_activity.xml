@@ -37,6 +37,13 @@
       android:layout_marginRight="39dp"
       android:text="CONFIRM"/>
 
+  <Button android:id="@+id/btn_commit4"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="39dp"
+      android:layout_marginRight="39dp"
+      android:text="CONFIRM (four)"/>
+
   <ExpandableListView android:id="@+id/sample_list"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"/>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:rowCount="2"
+    android:keepScreenOn="true">
+
+    <FrameLayout android:id="@+id/play_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:background="#FFFF00">
+
+        <com.google.android.exoplayer2.ui.PlayerView android:id="@+id/player_view_1"
+            android:layout_width="500dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout android:id="@+id/play_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:background="#FF0000">
+
+        <com.google.android.exoplayer2.ui.PlayerView android:id="@+id/player_view_2"
+            android:layout_width="500dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout android:id="@+id/play_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:background="#00FF00">
+
+        <com.google.android.exoplayer2.ui.PlayerView android:id="@+id/player_view_3"
+            android:layout_width="500dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout android:id="@+id/play_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:background="#0000FF">
+
+        <com.google.android.exoplayer2.ui.PlayerView android:id="@+id/player_view_4"
+            android:layout_width="500dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+</GridLayout>
