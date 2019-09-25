@@ -22,12 +22,15 @@ import android.media.MediaCodec.CryptoException;
 import android.media.MediaCrypto;
 import android.media.MediaCryptoException;
 import android.media.MediaFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
 import androidx.annotation.CheckResult;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import com.google.android.exoplayer2.BaseRenderer;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -39,6 +42,7 @@ import com.google.android.exoplayer2.drm.DrmSession;
 import com.google.android.exoplayer2.drm.DrmSession.DrmSessionException;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.drm.FrameworkMediaCrypto;
+import com.google.android.exoplayer2.drm.MediaCryptoMaker;
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil.DecoderQueryException;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.util.Assertions;
@@ -167,7 +171,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
   /** Indicates no codec operating rate should be set. */
   protected static final float CODEC_OPERATING_RATE_UNSET = -1;
 
-  private static final String TAG = "MediaCodecRenderer";
+  private static final String TAG = "Exo_MediaCodecRenderer";
 
   /**
    * If the {@link MediaCodec} is hotswapped (i.e. replaced during playback), this is the period of
@@ -463,6 +467,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
       MediaCrypto crypto,
       float codecOperatingRate);
 
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
   protected final void maybeInitCodec() throws ExoPlaybackException {
     if (codec != null || inputFormat == null) {
       // We have a codec already, or we don't have a format with which to instantiate one.
@@ -485,14 +490,20 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             return;
           }
         } else {
-          try {
+          /*try {
             mediaCrypto = new MediaCrypto(sessionMediaCrypto.uuid, sessionMediaCrypto.sessionId);
           } catch (MediaCryptoException e) {
             throw ExoPlaybackException.createForRenderer(e, getIndex());
           }
           mediaCryptoRequiresSecureDecoder =
               !sessionMediaCrypto.forceAllowInsecureDecoderComponents
-                  && mediaCrypto.requiresSecureDecoderComponent(mimeType);
+                  && mediaCrypto.requiresSecureDecoderComponent(mimeType);*/
+
+          MediaCryptoMaker maker = new MediaCryptoMaker();
+          mediaCrypto = maker.make("widevine",
+                    "https://proxy.uat.widevine.com/proxy?provider=widevine_test",
+                    formatHolder);
+          mediaCryptoRequiresSecureDecoder = false;
         }
       }
       if (deviceNeedsDrmKeysToConfigureCodecWorkaround()) {
@@ -1157,6 +1168,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
    * @throws ExoPlaybackException If an error occurs re-initializing the {@link MediaCodec}.
    */
   protected void onInputFormatChanged(Format newFormat) throws ExoPlaybackException {
+    Log.d(TAG, "onInputFormatChanged newFormat: " + Format.toLogString(newFormat)
+           + " drmInitData " + newFormat.drmInitData);
     Format oldFormat = inputFormat;
     inputFormat = newFormat;
     waitingForFirstSampleInFormat = true;
