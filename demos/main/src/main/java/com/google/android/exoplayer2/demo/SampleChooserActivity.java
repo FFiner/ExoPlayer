@@ -72,6 +72,7 @@ public class SampleChooserActivity extends AppCompatActivity
   private MenuItem preferExtensionDecodersMenuItem;
   private MenuItem randomAbrMenuItem;
   private EditText urlEditText;
+  private EditText licenseEditText;
   private Button confirmBtn;
   private Button confirmBtn4;
 
@@ -81,6 +82,7 @@ public class SampleChooserActivity extends AppCompatActivity
     setContentView(R.layout.sample_chooser_activity);
 
     urlEditText = findViewById(R.id.et_url);
+    licenseEditText = findViewById(R.id.et_license);
     confirmBtn = findViewById(R.id.btn_commit);
     if(confirmBtn != null){
       confirmBtn.setOnClickListener(confirmListener);
@@ -642,6 +644,15 @@ public class SampleChooserActivity extends AppCompatActivity
             Intent intent = new Intent(SampleChooserActivity.this, PlayerActivity.class);
             intent.setData(Uri.parse(url));
             intent.setAction(PlayerActivity.ACTION_VIEW);
+            String license;
+            if(licenseEditText != null){
+              license = licenseEditText.getText().toString();
+              if(license != null){
+                intent.putExtra(PlayerActivity.DRM_SCHEME_EXTRA, "widevine");
+                intent.putExtra(PlayerActivity.DRM_LICENSE_URL_EXTRA, license);
+              }
+            }
+
             SampleChooserActivity.this.startActivity(intent);
           }
           break;

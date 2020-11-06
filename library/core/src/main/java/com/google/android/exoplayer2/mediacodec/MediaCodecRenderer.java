@@ -490,20 +490,20 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             return;
           }
         } else {
-          /*try {
+          try {
             mediaCrypto = new MediaCrypto(sessionMediaCrypto.uuid, sessionMediaCrypto.sessionId);
           } catch (MediaCryptoException e) {
             throw ExoPlaybackException.createForRenderer(e, getIndex());
           }
           mediaCryptoRequiresSecureDecoder =
               !sessionMediaCrypto.forceAllowInsecureDecoderComponents
-                  && mediaCrypto.requiresSecureDecoderComponent(mimeType);*/
+                  && mediaCrypto.requiresSecureDecoderComponent(mimeType);
 
-          MediaCryptoMaker maker = new MediaCryptoMaker();
+          /*MediaCryptoMaker maker = new MediaCryptoMaker();
           mediaCrypto = maker.make("widevine",
                     "https://proxy.uat.widevine.com/proxy?provider=widevine_test",
                     formatHolder);
-          mediaCryptoRequiresSecureDecoder = false;
+          mediaCryptoRequiresSecureDecoder = false;*/
         }
       }
       if (deviceNeedsDrmKeysToConfigureCodecWorkaround()) {
